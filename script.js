@@ -1,21 +1,29 @@
-document.getElementById('btn').addEventListener('click', function () {
-  const name = document.getElementById('name').value.trim();
-  const age = document.getElementById('age').value.trim();
+document.getElementById("voteForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent form from submitting normally
 
-  if (name === '' || age === '') {
+  const name = document.getElementById("name").value.trim();
+  const age = parseInt(document.getElementById("age").value.trim());
+
+  // Validate inputs
+  if (!name || isNaN(age)) {
     alert("Please enter valid details.");
     return;
   }
 
+  // Create the promise
   new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (parseInt(age) > 18) {
-        resolve(`Welcome, ${name}. You can vote.`);
+      if (age >= 18) {
+        resolve();
       } else {
-        reject(`Oh sorry ${name}. You aren't old enough.`);
+        reject();
       }
-    }, 4000);
+    }, 4000); // 4-second delay
   })
-  .then(message => alert(message))
-  .catch(error => alert(error));
+  .then(() => {
+    alert(`Welcome, ${name}. You can vote.`);
+  })
+  .catch(() => {
+    alert(`Oh sorry ${name}. You aren't old enough.`);
+  });
 });
